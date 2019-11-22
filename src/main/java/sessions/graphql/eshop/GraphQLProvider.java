@@ -6,8 +6,13 @@ import graphql.GraphQL;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 import graphql.schema.GraphQLSchema;
-import graphql.schema.idl.*;
+import graphql.schema.idl.RuntimeWiring;
+import graphql.schema.idl.SchemaGenerator;
+import graphql.schema.idl.SchemaParser;
+import graphql.schema.idl.TypeDefinitionRegistry;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import sessions.graphql.eshop.dealers.DealerService;
 
@@ -15,11 +20,15 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.URL;
 
+import static graphql.schema.idl.TypeRuntimeWiring.newTypeWiring;
+
+
 @Component
 public class GraphQLProvider {
 
     private GraphQL graphQL;
 
+    @Bean
     public GraphQL graphQL(){
         return graphQL;
     }
@@ -46,7 +55,7 @@ public class GraphQLProvider {
     RuntimeWiring buildWiring(){
 
         return RuntimeWiring.newRuntimeWiring()
-                .type(TypeRuntimeWiring.newTypeWiring("Query")
+                .type(newTypeWiring("Query")
                 .dataFetcher("dealerById",getDealerById())                )
                 .build();
 

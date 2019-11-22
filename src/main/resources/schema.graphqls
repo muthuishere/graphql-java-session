@@ -1,0 +1,14 @@
+type Dealer{
+
+    id:ID
+    name:String
+    location:String
+    phone:String
+    address:String
+}
+
+type Query{
+
+    dealerById(id:ID):Dealer
+
+}
